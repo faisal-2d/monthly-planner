@@ -1,10 +1,5 @@
-function warining(){
-    document.getElementById('alert').style.display = 'block';
-}
-
 // get any input value 
-function getValue(inputField){  
-    console.log('it is:' + typeof(inputField));   
+function getValue(inputField){    
     const inputText = document.getElementById(inputField).value;
     
     if(inputText == '' || inputText < 0 || isNaN(inputText)){
@@ -23,7 +18,7 @@ function getTotalExpences(){
 
 // inner text update 
 function updateInnerText(textFiled, newText){
-    document.getElementById(textFiled).innerText = newText;
+    document.getElementById(textFiled).innerText = newText.toFixed(2);
 }
 
 // calculate button
@@ -32,16 +27,20 @@ document.getElementById('calculate-btn').addEventListener('click', function(){
     const totalCost = getTotalExpences();
     
     const balance = totalIncome - totalCost;
-
-    updateInnerText('total-expences', totalCost);
-    updateInnerText('balance', balance);
+    if(balance>=0){
+        updateInnerText('total-expences', totalCost);
+        updateInnerText('balance', balance);
+    }
+    else{
+        warining();
+    }  
 
        
 });
 
 // saving parcentage calculation
 function calculateSaving(number){
-    const totalSaving = Math.round(getValue('income-input')*(number/100));
+    const totalSaving = getValue('income-input')*(number/100);
     return totalSaving;
 }
 
@@ -51,11 +50,24 @@ document.getElementById('save-btn').addEventListener('click', function(){
     const saving = getValue('save-input');
     const totalSavingAmount = calculateSaving(saving);
 
-    const remainingBalance = getValue('income-input') - getTotalExpences() - totalSavingAmount;
-
-    updateInnerText('saving-amount', totalSavingAmount);
-    updateInnerText('remaining-balance', remainingBalance);    
+    const netBalance = getValue('income-input') - getTotalExpences();
+    const remainingBalance = netBalance - totalSavingAmount;
+    
+    if(netBalance>0 && remainingBalance>0){
+        updateInnerText('saving-amount', totalSavingAmount);
+        updateInnerText('remaining-balance', remainingBalance);  
+    }
+    else {
+        warining2();
+    }  
 });
 
 // input validity 
+function warining(){
+    document.getElementById('alert').style.display = 'block';
+}
+function warining2(){
+    document.getElementById('alert').style.display = 'block';
+    document.getElementById('alert').style.innerText = 'You have spent all!';
+}
 
