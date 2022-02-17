@@ -7,17 +7,11 @@ function getValue(inputField){
     console.log('it is:' + typeof(inputField));   
     const inputText = document.getElementById(inputField).value;
     
-    if(inputText == ''){
-        console.log('empty');
-        warining();
+    if(inputText == '' || inputText < 0 || isNaN(inputText)){
+       return warining();
     }
-
-    const inputValue = parseFloat(inputText); 
-
-    console.log('it is also: ' + typeof(inputValue));
-
+    const inputValue = parseFloat(inputText);
     return inputValue;
-
 }         
        
 
@@ -49,7 +43,6 @@ document.getElementById('calculate-btn').addEventListener('click', function(){
 function calculateSaving(number){
     const totalSaving = Math.round(getValue('income-input')*(number/100));
     return totalSaving;
-
 }
 
 
